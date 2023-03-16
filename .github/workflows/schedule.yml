@@ -1,21 +1,17 @@
+name: Update gist with WakaTime stats
 on:
   schedule:
-    # Runs at 12am IST
-    - cron: '30 18 * * *'
-    # cron: '00 15 * * *'로 하면 한국 시간 기준으로 오전 12:00에 업데이트 된다
+    - cron: "0 0 * * *"
+  # Manual triggers with workflow_dispatch
   workflow_dispatch:
 jobs:
-  update-readme:
-    name: Update Readme with Metrics
+  update-gist:
     runs-on: ubuntu-latest
     steps:
-      - uses: anmol098/waka-readme-stats@master
-        with:
-          WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
-          GIST_ID: 91af9316e85a62acbb737edbb348b57e
+      - uses: actions/checkout@master
+      - name: Update gist
+        uses: matchai/waka-box@master
+        env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          SHOW_OS: "True"
-          SHOW_DAYS_OF_WEEK: "True"
-          SHOW_COMMIT: "True"
-          SHOW_LANGUAGE: "True"
-          SHOW_EDITORS: "True"
+          GIST_ID: 91af9316e85a62acbb737edbb348b57e
+          WAKATIME_API_KEY: ${{ secrets.WAKATIME_API_KEY }}
